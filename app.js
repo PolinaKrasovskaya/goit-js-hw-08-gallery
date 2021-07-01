@@ -64,22 +64,172 @@ const galleryItems = [
     },
   ];
 
+//   Разбей задание на несколько подзадач:
+// Создание и рендер разметки по массиву данных galleryItems из app.js и предоставленному шаблону.
 
   const refs = {
-      listGallery = document.querySelector('.js-gallery'),
-      lightBoxEl = document.querySelector('.js-lightbox'),
-      lightBoxOverlay = document.querySelector('.lightbox__overlay'),
-      lightBoxContent = document.querySelector('.lightbox__content'),
-      lightBoxImage = document.querySelector('.lightbox__image'),
-      lightBoxButton = document.querySelector('[data-action="close-lightbox"]'),
+      listGallery: document.querySelector('.js-gallery'),
+      lightBoxEl: document.querySelector('.js-lightbox'),
+      lightBoxOverlay: document.querySelector('.lightbox__overlay'),
+      // lightBoxContent: document.querySelector('.lightbox__content'),
+      lightBoxImage: document.querySelector('.lightbox__image'),
+      lightBoxButton: document.querySelector('[data-action="close-lightbox"]'),
+  };
+
+  // const refs = {
+//   gallery: document.querySelector('.js-gallery'),
+//   modal: document.querySelector('.js-lightbox'),
+//   modalImages: document.querySelector('.lightbox__image'),
+//   overlay: document.querySelector('.lightbox__overlay'),
+//   closeModalBtn: document.querySelector('button[data-action="close-lightbox"]')
+//   }
+//   // Создание и рендер разметки по массиву данных
+//   const cardsMarkup = createCardsMarkup(galleryItems);
+
+
+const galleryMarkup = createGalleryMarkUp(galleryItems);
+refs.listGallery.insertAdjacentHTML('afterbegin', galleryMarkup);
+
+function createGalleryMarkUp(el) {
+  return el.map(({preview, original, description}) => {
+  return `<li class="gallery__item">
+    <a class="gallery__link" href="${original}">
+    <img src="${preview}"
+      alt="${description}"
+      class="gallery__image"
+      data-source="${original}" />
+    </a>
+    </li>`
+  })
+  .join('');
+};
+  
+
+//   function createCardsMarkup (images) {
+//   return images.map(({preview, original, description}) => {
+//     return `<li class="gallery__item">
+//   <a class="gallery__link"
+//     href="${original}" >
+//     <img class="gallery__image"
+//       src="${preview}"
+//       data-source="${original}"
+//       alt="${description}" />
+//   </a>
+//   </li>`})
+//     .join('');
+//     };
+  
+//   refs.gallery.insertAdjacentHTML('beforeend', cardsMarkup);
+  
+console.log(refs.listGallery);
+// Реализация делегирования на галерее ul.js-gallery и получение url большого изображения.
+
+refs.listGallery.addEventListener('click', onOpenModal);
+// refs.listGallery.addEventListener('click', onCloseModal);
+
+function onOpenModal(e) {
+  e.preventDefault();
+  if(e.target.nodeName !== 'IMG') {
+    return;
   }
 
+  const imageRef = e.target;
+  const originalImage = imageRef.dataset.source;
+  const originalAlt = imageRef.alt;
 
+    setLargeImageSrc(originalImage);  
+  setLargeImageAlt(originalAlt);
+
+  function setLargeImageSrc(url) {
+      refs.lightBoxImage.src = url;
+      };
+      
+      function setLargeImageAlt(alt) {
+      refs.lightBoxImage.alt = alt;};
+
+  console.log(e.target);
+
+  refs.lightBoxEl.classList.add('is-open');
+  // e.preventDefault();
+
+  // const activeBtn = e.target;
+  // activeBtn.classList.add('.is-open');
+  // selectedItem = activeBtn.dataset.value;
+
+
+  // refs.lightBoxEl.classList.add('is-open');
+  // let modalImageSrc = e.target.getAttribute('data-source');
+  // console.log(modalImageSrc);
+}
+console.log(refs.lightBoxEl);
+
+
+//   // Реализация делегирования на галерее 
   
-//   Разбей задание на несколько подзадач:
+//   refs.gallery.addEventListener('click', onGalleryClick);
+  
+//   function onGalleryClick (evt) {
+//   evt.preventDefault();
+//   if (evt.target.nodeName !== 'IMG') {
+//      return;
+//   }
+  
+//   const imagesRef = evt.target;
+//   const largeImagesSource = imagesRef.dataset.source;
+//   const largeImagesAlt = imagesRef.alt
+  
+//   // Подмена значения атрибутов
+//   setLargeImageSrc(largeImagesSource);  
+//   setLargeImageAlt(largeImagesAlt);
+  
+  
+//   // Открытие модального окна 
+//   refs.modal.classList.add('is-open');
+  
+//   };
+  
+//   function setLargeImageSrc(url) {
+//   refs.modalImages.src = url;
+//   };
+  
+//   function setLargeImageAlt(alt) {
+//   refs.modalImages.alt = alt;};
+  
+  
 
-// Создание и рендер разметки по массиву данных galleryItems из app.js и предоставленному шаблону.
-// Реализация делегирования на галерее ul.js-gallery и получение url большого изображения.
+
+//   console.log(refs.listGallery);
+// // Реализация делегирования на галерее ul.js-gallery и получение url большого изображения.
+
+// refs.listGallery.addEventListener('click', onOpenModal);
+// // refs.listGallery.addEventListener('click', onCloseModal);
+
+// function onOpenModal(e) {
+//   e.preventDefault();
+//   if(e.target.nodeName !== 'IMG') {
+//     return;
+//   }
+
+//   console.log(e.target);
+
+//   refs.lightBoxEl.classList.add('is-open');
+//   // e.preventDefault();
+
+//   // const activeBtn = e.target;
+//   // activeBtn.classList.add('.is-open');
+//   // selectedItem = activeBtn.dataset.value;
+
+
+//   // refs.lightBoxEl.classList.add('is-open');
+//   // let modalImageSrc = e.target.getAttribute('data-source');
+//   // console.log(modalImageSrc);
+// }
+// console.log(refs.lightBoxEl);
+
+// function onCloseModal() {
+//   refs.lightBoxEl.classList.remove('is-open');
+// }
+
 // Открытие модального окна по клику на элементе галереи.
 // Подмена значения атрибута src элемента img.lightbox__image.
 // Закрытие модального окна по клику на кнопку button[data-action="close-lightbox"].
@@ -112,3 +262,23 @@ const galleryItems = [
 // Закрытие модального окна по клику на div.lightbox__overlay.
 // Закрытие модального окна по нажатию клавиши ESC.
 // Пролистывание изображений галереи в открытом модальном окне клавишами "влево" и "вправо".
+
+
+//   // <!-- Закрытие модального окна по
+//   //  клику на кнопку button[data-action="close-lightbox"]. -->
+  
+//   function closeModal() {
+//     refs.modal.classList.remove('is-open');
+//     refs.modalImages.src = "";
+//     refs.modalImages.alt = "";
+//   }
+  
+//   refs.closeModalBtn.addEventListener('click', closeModal);
+//   refs.overlay.addEventListener('click', closeModal);
+  
+  
+//   document.addEventListener('keydown', (event) => {
+//    if (event.code === 'Escape' && refs.modal.classList.contains('is-open') === true) {
+//       closeModal(event);
+//    }
+//   })
