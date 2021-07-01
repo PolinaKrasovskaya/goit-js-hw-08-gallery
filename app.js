@@ -71,20 +71,9 @@ const galleryItems = [
       listGallery: document.querySelector('.js-gallery'),
       lightBoxEl: document.querySelector('.js-lightbox'),
       lightBoxOverlay: document.querySelector('.lightbox__overlay'),
-      // lightBoxContent: document.querySelector('.lightbox__content'),
       lightBoxImage: document.querySelector('.lightbox__image'),
       lightBoxButton: document.querySelector('[data-action="close-lightbox"]'),
   };
-
-  // const refs = {
-//   gallery: document.querySelector('.js-gallery'),
-//   modal: document.querySelector('.js-lightbox'),
-//   modalImages: document.querySelector('.lightbox__image'),
-//   overlay: document.querySelector('.lightbox__overlay'),
-//   closeModalBtn: document.querySelector('button[data-action="close-lightbox"]')
-//   }
-//   // Создание и рендер разметки по массиву данных
-//   const cardsMarkup = createCardsMarkup(galleryItems);
 
 
 const galleryMarkup = createGalleryMarkUp(galleryItems);
@@ -104,28 +93,11 @@ function createGalleryMarkUp(el) {
   .join('');
 };
   
-
-//   function createCardsMarkup (images) {
-//   return images.map(({preview, original, description}) => {
-//     return `<li class="gallery__item">
-//   <a class="gallery__link"
-//     href="${original}" >
-//     <img class="gallery__image"
-//       src="${preview}"
-//       data-source="${original}"
-//       alt="${description}" />
-//   </a>
-//   </li>`})
-//     .join('');
-//     };
-  
-//   refs.gallery.insertAdjacentHTML('beforeend', cardsMarkup);
-  
 console.log(refs.listGallery);
+
 // Реализация делегирования на галерее ul.js-gallery и получение url большого изображения.
 
 refs.listGallery.addEventListener('click', onOpenModal);
-// refs.listGallery.addEventListener('click', onCloseModal);
 
 function onOpenModal(e) {
   e.preventDefault();
@@ -137,148 +109,34 @@ function onOpenModal(e) {
   const originalImage = imageRef.dataset.source;
   const originalAlt = imageRef.alt;
 
-    setLargeImageSrc(originalImage);  
+  setLargeImageSrc(originalImage);  
   setLargeImageAlt(originalAlt);
 
+  refs.lightBoxEl.classList.add('is-open');
+
   function setLargeImageSrc(url) {
-      refs.lightBoxImage.src = url;
-      };
+    refs.lightBoxImage.src = url;
+    };
       
-      function setLargeImageAlt(alt) {
-      refs.lightBoxImage.alt = alt;};
+  function setLargeImageAlt(alt) {
+    refs.lightBoxImage.alt = alt;
+  };
 
   console.log(e.target);
-
-  refs.lightBoxEl.classList.add('is-open');
-  // e.preventDefault();
-
-  // const activeBtn = e.target;
-  // activeBtn.classList.add('.is-open');
-  // selectedItem = activeBtn.dataset.value;
-
-
-  // refs.lightBoxEl.classList.add('is-open');
-  // let modalImageSrc = e.target.getAttribute('data-source');
-  // console.log(modalImageSrc);
 }
 console.log(refs.lightBoxEl);
 
+refs.lightBoxButton.addEventListener('click',  onCLoseModal);
+refs.lightBoxOverlay.addEventListener('click', onCLoseModal);
 
-//   // Реализация делегирования на галерее 
-  
-//   refs.gallery.addEventListener('click', onGalleryClick);
-  
-//   function onGalleryClick (evt) {
-//   evt.preventDefault();
-//   if (evt.target.nodeName !== 'IMG') {
-//      return;
-//   }
-  
-//   const imagesRef = evt.target;
-//   const largeImagesSource = imagesRef.dataset.source;
-//   const largeImagesAlt = imagesRef.alt
-  
-//   // Подмена значения атрибутов
-//   setLargeImageSrc(largeImagesSource);  
-//   setLargeImageAlt(largeImagesAlt);
-  
-  
-//   // Открытие модального окна 
-//   refs.modal.classList.add('is-open');
-  
-//   };
-  
-//   function setLargeImageSrc(url) {
-//   refs.modalImages.src = url;
-//   };
-  
-//   function setLargeImageAlt(alt) {
-//   refs.modalImages.alt = alt;};
-  
-  
+function onCLoseModal() {
+  refs.lightBoxEl.classList.remove('is-open');
+  refs.lightBoxEl.src = '';
+  refs.lightBoxEl.alt = '';
+}
 
-
-//   console.log(refs.listGallery);
-// // Реализация делегирования на галерее ul.js-gallery и получение url большого изображения.
-
-// refs.listGallery.addEventListener('click', onOpenModal);
-// // refs.listGallery.addEventListener('click', onCloseModal);
-
-// function onOpenModal(e) {
-//   e.preventDefault();
-//   if(e.target.nodeName !== 'IMG') {
-//     return;
-//   }
-
-//   console.log(e.target);
-
-//   refs.lightBoxEl.classList.add('is-open');
-//   // e.preventDefault();
-
-//   // const activeBtn = e.target;
-//   // activeBtn.classList.add('.is-open');
-//   // selectedItem = activeBtn.dataset.value;
-
-
-//   // refs.lightBoxEl.classList.add('is-open');
-//   // let modalImageSrc = e.target.getAttribute('data-source');
-//   // console.log(modalImageSrc);
-// }
-// console.log(refs.lightBoxEl);
-
-// function onCloseModal() {
-//   refs.lightBoxEl.classList.remove('is-open');
-// }
-
-// Открытие модального окна по клику на элементе галереи.
-// Подмена значения атрибута src элемента img.lightbox__image.
-// Закрытие модального окна по клику на кнопку button[data-action="close-lightbox"].
-// Очистка значения атрибута src элемента img.lightbox__image. Это необходимо для того, чтобы 
-// при следующем открытии модального окна, пока грузится изображение, мы не видели предыдущее.
-// Стартовые файлы
-// В папке src ты найдешь стартовые файлы проекта с базовой разметкой и готовыми стилями.
-// В файле app.js есть массив galleryItems, который содержит объекты с информацией о изображениях: 
-// маленькое изображение, оригинальное и описание.
-// Разметка элемента галереи
-// Ссылка на оригинальное изображение должна храниться в data-атрибуте source на элементе img, и 
-// указываться в href ссылки (это необходимо для доступности).
-
-// <li class="gallery__item">
-//   <a
-//     class="gallery__link"
-//     href="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546_1280.jpg"
-//   >
-//     <img
-//       class="gallery__image"
-//       src="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546__340.jpg"
-//       data-source="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546_1280.jpg"
-//       alt="Tulips"
-//     />
-//   </a>
-// </li>
-// Дополнительно
-// Следующий функционал не обязателен при сдаче задания, но будет хорошей практикой по работе с событиями.
-
-// Закрытие модального окна по клику на div.lightbox__overlay.
-// Закрытие модального окна по нажатию клавиши ESC.
-// Пролистывание изображений галереи в открытом модальном окне клавишами "влево" и "вправо".
-
-
-//   // <!-- Закрытие модального окна по
-//   //  клику на кнопку button[data-action="close-lightbox"]. -->
-  
-//   function closeModal() {
-//     refs.modal.classList.remove('is-open');
-//     refs.modalImages.src = "";
-//     refs.modalImages.alt = "";
-//   }
-  
-//   refs.closeModalBtn.addEventListener('click', closeModal);
-//   refs.overlay.addEventListener('click', closeModal);
-  
-  
-//   document.addEventListener('keydown', (event) => {
-//    if (event.code === 'Escape' && refs.modal.classList.contains('is-open') === true) {
-//       closeModal(event);
-//    }
-//   })
+document.addEventListener('keydown', (e) => {
+ if (e.code === 'Escape' && refs.lightBoxEl.classList.contains('is-open') === true) {
+  onCLoseModal(e);
+ }
+})
