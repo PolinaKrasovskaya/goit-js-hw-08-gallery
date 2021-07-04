@@ -131,12 +131,10 @@ refs.lightBoxOverlay.addEventListener('click', onCLoseModal);
 
 function onCLoseModal() {
   refs.lightBoxEl.classList.remove('is-open');
-  refs.lightBoxEl.src = '';
-  refs.lightBoxEl.alt = '';
 }
 
 document.addEventListener('keydown', (e) => {
- if (e.code === 'Escape' && refs.lightBoxEl.classList.contains('is-open') === true) {
+ if (e.code === 'Escape' && refs.lightBoxEl.classList.contains('is-open')) {
   onCLoseModal(e);
  }
 })
