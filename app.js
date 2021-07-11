@@ -131,6 +131,8 @@ refs.lightBoxOverlay.addEventListener('click', onCLoseModal);
 
 function onCLoseModal() {
   refs.lightBoxEl.classList.remove('is-open');
+  setLargeImageSrc('');
+  setLargeImageAlt('');
 }
 
 document.addEventListener('keydown', (e) => {
